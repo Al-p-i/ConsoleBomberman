@@ -44,7 +44,8 @@ public class GameSession implements Tickable {
     public void tick(long elapsed) {
         tickPlayers(elapsed);
         tickBombs(elapsed);
-        replicate();
+        //replicate();
+        draw();
         checkGameOver();
     }
 
@@ -151,6 +152,53 @@ public class GameSession implements Tickable {
                 }
             }
             player.setPosition(newPosition);
+        }
+    }
+
+    public void draw() {
+        for (int y = 0; y < mapHeight; y++) {
+            StringBuilder line = new StringBuilder();
+            line.append(y).append(':');
+            for (int x = 0; x < mapWidth; x++) {
+                line.append(' ');
+                Position c = new Position(x, y);
+                boolean empty = true;
+                for (Player player : players) {
+                    if (player.getPosition().equals(c)) {
+                        line.append('p');
+                        empty = false;
+                    }
+                }
+                for (Bomb bomb : bombs) {
+                    if (bomb.getPosition().equals(c)) {
+                        line.append('b');
+                        empty = false;
+                    }
+                }
+                for (Bonus bonus : bonuses) {
+                    if (bonus.getPosition().equals(c)) {
+                        line.append('+');
+                        empty = false;
+                    }
+                }
+                for (UnbreakableWall unbreakableWall : unbreakableWalls) {
+                    if (unbreakableWall.getPosition().equals(c)) {
+                        line.append('x');
+                        empty = false;
+                    }
+                }
+                for (Wall wall : walls) {
+                    if (wall.getPosition().equals(c)) {
+                        line.append('w');
+                        empty = false;
+                    }
+                }
+                if (empty) {
+                    line.append(' ');
+                }
+            }
+            line.append(' ');
+            System.out.println(line.toString());
         }
     }
 }
