@@ -66,6 +66,10 @@ public class Player extends GameObject implements Positionable {
         this.speed = speed;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Player{" +

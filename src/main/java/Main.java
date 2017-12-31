@@ -4,14 +4,13 @@ import mechanics.GameSession;
 import mechanics.Message;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Created by a.pomosov on 25/12/2017.
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        while (askForNextGame()) {
+        while (askIfNeedNextGame()) {
             GameSession game = createGame();
             new Thread(() -> {
                 while (!game.gameOver) {
@@ -41,10 +40,11 @@ public class Main {
         }
     }
 
-    private static boolean askForNextGame() {
+    private static boolean askIfNeedNextGame() {
         System.out.println("To play new game press any key, to exit print 'q'");
         try {
-            return (System.in.read() != 'q');
+            int read = System.in.read();
+            return (read != 'q');
         } catch (IOException e) {
             return false;
         }

@@ -62,7 +62,7 @@ public class GameSession implements Tickable {
             System.out.println("===== GAME OVER =====");
             Optional<Player> winner = players.stream().filter(p -> !p.isDead()).findFirst();
             if (winner.isPresent()) {
-                System.out.println("Player " + winner.get() + " wins!");
+                System.out.println(winner.get().getName() + " WINS!");
             } else {
                 System.out.println("Draw!");
             }
@@ -102,7 +102,7 @@ public class GameSession implements Tickable {
         for (Player player : players) {
             if (Geometry.isInRadius(player.getPosition(), bomb.getPosition(), bomb.getRadius())) {
                 player.setDead();
-                System.out.println(player + " IS DEAD!");
+                System.out.println(player.getName() + " IS DEAD!");
             }
         }
         List<Wall> wallsToRemove = new ArrayList<>();
