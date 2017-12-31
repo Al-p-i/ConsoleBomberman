@@ -138,7 +138,7 @@ public class GameSession implements Tickable {
             } else {
                 newPosition = player.getPosition();
             }
-            if (newPosition.getX() > mapWidth || newPosition.getX() < 0 || newPosition.getY() > mapHeight || newPosition.getY() < 0) {
+            if (newPosition.getX() >= mapWidth || newPosition.getX() < 0 || newPosition.getY() >= mapHeight || newPosition.getY() < 0) {
                 return;
             }
             for (Wall wall : walls) {
@@ -156,6 +156,11 @@ public class GameSession implements Tickable {
     }
 
     public void draw() {
+        StringBuilder firstFile = new StringBuilder("  ");
+        for (int x = 0; x < mapWidth; x++) {
+            firstFile.append(' ').append(x);
+        }
+        System.out.println(firstFile);
         for (int y = 0; y < mapHeight; y++) {
             StringBuilder line = new StringBuilder();
             line.append(y).append(':');
@@ -165,13 +170,17 @@ public class GameSession implements Tickable {
                 boolean empty = true;
                 for (Player player : players) {
                     if (player.getPosition().equals(c)) {
-                        line.append('p');
+                        if (player.isDead()) {
+                            line.append('x');
+                        } else {
+                            line.append('p');
+                        }
                         empty = false;
                     }
                 }
                 for (Bomb bomb : bombs) {
                     if (bomb.getPosition().equals(c)) {
-                        line.append('b');
+                        line.append('Q');
                         empty = false;
                     }
                 }
@@ -183,7 +192,7 @@ public class GameSession implements Tickable {
                 }
                 for (UnbreakableWall unbreakableWall : unbreakableWalls) {
                     if (unbreakableWall.getPosition().equals(c)) {
-                        line.append('x');
+                        line.append('=');
                         empty = false;
                     }
                 }
@@ -198,7 +207,9 @@ public class GameSession implements Tickable {
                 }
             }
             line.append(' ');
+            line.append(':').append(y);
             System.out.println(line.toString());
         }
+        System.out.println(firstFile);
     }
 }
